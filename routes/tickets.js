@@ -1,20 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const Ticket = require("../models/ticket.js");
+const Ticket = require("../models/Ticket");
 
-// Get All
-
+// 1. Get All Tickets
 router.get("/", async (req, res) => {
   try {
     const tickets = await Ticket.find();
     res.json(tickets);
   } catch (error) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-// Get one
-
+// 2. Get One Ticket by ID
 router.get("/:id", async (req, res) => {
   try {
     const ticket = await Ticket.findById(req.params.id);
@@ -27,8 +25,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// creating one
-
+// 3. Create a New Ticket
 router.post("/", async (req, res) => {
   try {
     const newTicket = new Ticket(req.body);
@@ -39,8 +36,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Updating one
-router.patch("/:id", async (req, res) => {
+// 4. Update One Ticket by ID
+router.put("/:id", async (req, res) => {
   try {
     const updatedTicket = await Ticket.findByIdAndUpdate(
       req.params.id,
@@ -56,7 +53,7 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-// deleing one
+// 5. Delete One Ticket by ID
 router.delete("/:id", async (req, res) => {
   try {
     const deletedTicket = await Ticket.findByIdAndRemove(req.params.id);
